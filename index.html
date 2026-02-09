@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>BloodSense — Fingerprint Blood Group</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo-anim">
+        <div class="logo-symbol">BS</div>
+      </div>
+
+      <div class="brand-text">
+        <div class="brand-title">BloodSense</div>
+        <div class="brand-sub">Fingerprint • ID • Blood Group</div>
+      </div>
+    </div>
+
+    <nav class="nav-right">
+      <a href="/">Home</a>
+      <a href="/help">Help</a>
+    </nav>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-grid">
+
+    <!-- LEFT MAIN PANEL -->
+    <section class="panel hero">
+      <h1>Fingerprint Blood Group Detection</h1>
+      <p class="lead">
+        Upload a clear fingerprint image (BMP / PNG / JPG).  
+        The system will analyze and detect the closest matching blood group.
+      </p>
+
+      <!-- Scanner Preview -->
+      <div class="scanner-box" id="scannerBox">
+        <img id="previewImg" src="" alt="preview" style="display:none;">
+        <div class="scan-line" id="scanLine"></div>
+      </div>
+
+      <!-- Upload + Buttons -->
+      <div class="upload-box">
+
+        <form id="uploadForm" method="POST" action="/predict" enctype="multipart/form-data">
+
+          <label for="fingerprintInput" class="btn upload-btn">Choose fingerprint</label>
+          <input id="fingerprintInput" name="file" type="file"
+                 accept=".bmp, .png, .jpg, .jpeg" style="display:none">
+
+          <div id="fileName" class="file-name">No file chosen</div>
+
+          <div class="controls">
+            <button type="submit" id="detectBtn" class="btn primary">Detect Blood Group</button>
+            <button type="button" id="resetBtn" class="btn ghost">Reset</button>
+          </div>
+        </form>
+
+        <!-- Loader Animation -->
+        <div class="loader" id="loader"></div>
+
+        <!-- Result Panel -->
+        <div class="result" id="resultArea" style="display:none">
+          <div class="result-header">
+            <div class="blood" id="detectedGroup">-</div>
+            <div class="muted" id="detectedUser">User: Unknown</div>
+          </div>
+
+          <div class="chart-wrap">
+            <canvas id="bloodChart"></canvas>
+          </div>
+
+          <!-- Voice Button -->
+          <div class="voice-controls">
+            <button id="speakBtn" class="btn">🔊 Speak Result</button>
+          </div>
+        </div>
+
+        <div class="muted note">Tip: Use clean, high-contrast fingerprint images for best accuracy.</div>
+      </div>
+
+    </section>
+
+    <!-- RIGHT SIDEBAR (only help section) -->
+    <aside class="panel sidebar">
+      <div class="card">
+        <h3>Help</h3>
+        <p>If no blood group appears after scanning, make sure:</p>
+        <ul class="small-list">
+          <li>Your server is running: <code>python app.py</code></li>
+          <li>Fingerprint DB exists in: <code>fingerprint_db/</code></li>
+          <li>Images are readable and not corrupted</li>
+        </ul>
+      </div>
+    </aside>
+
+  </main>
+
+  <footer class="footer muted">
+    BloodSense • Local Test Application • Keep Your Data Safe
+  </footer>
+
+  <!-- JS -->
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
